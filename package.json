@@ -1,12 +1,17 @@
 {
 	"name": "qia-browser-libraries",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Web browser libraries shared to help to alleviate the difficulty of web browser application development",
 	"main": "index.js",
   "types": "types/index.d.ts",
+  "license": "UNLICENSED",
+  "author": "Johann Huang <johann.huang.de@gmail.com> (https://johannhuang.com/)",
+  "homepage": "https://github.johannhuang.com/Qia-Web-Browser-Libraries/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johannhuang/Qia-Web-Browser-Libraries.git"
+  },
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "Johann Huang <johann.huang.de@gmail.com> (https://johannhuang.com/)",
-	"license": "UNLICENSED"
+	}
 }
