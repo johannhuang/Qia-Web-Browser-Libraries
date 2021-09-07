@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Qia Layout Helper with Qia MarkDown Text</title>
+	<script src="../../qia-layout-helper.js"></script>
+	<script src="../../qia-markdown-text.js"></script>
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+		}
+
+		a {
+			color: inherit;
+		}
+
+		.viewport {
+			width: 100%;
+			height: 100%;
+
+			font-size: 18px;
+			font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+		}
+	</style>
+</head>
+
+<body>
+	<div class="viewport qia-flex-v01">
+		<div>
+			<h1>Qia Layout Helper with Qia MarkDown Text</h1>
+			<p>A simple page to demonstrate the usage of qia-layout-helper and qia-text/qia-markdown-text</p>
+		</div>
+		<div class="qia-flex-v01">
+			<div>
+				<h2>Qia MarkDown Text</h2>
+				<p>The inner box which only deals with qia-text/qia-markdown-text.</p>
+			</div>
+			<div class="qia-flex-v10">
+				<div class="qia-markdown-text">
+					<pre># Introduction
+
+It is recommended to use qia-markdown-text with a pre block inside.
+					</pre>
+				</div>
+				<div class="application-controls"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+		const QiaMarkDownText = window.qia.MarkDownText
+
+		const qiaMarkDownTextElement = document.querySelector('.qia-markdown-text')
+		const qiaMarkDownText = new QiaMarkDownText(qiaMarkDownTextElement, {
+      fullScreenAllowed: true
+    })
+	</script>
+</body>
+
+</html>
