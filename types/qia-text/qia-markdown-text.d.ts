@@ -6,7 +6,6 @@
  *
  * @module Qia.MarkDownText
  */
-import SimpleMDE from 'simplemde';
 declare class QiaMarkDownText {
     private containerElement;
     private propsObject;
@@ -24,5 +23,4 @@ declare class QiaMarkDownText {
     private setState;
     private updateRepresentation;
 }
-export { SimpleMDE };
 export default QiaMarkDownText;
