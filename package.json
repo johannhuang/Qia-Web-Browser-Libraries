@@ -1,6 +1,6 @@
 {
 	"name": "qia-browser-libraries",
-	"version": "1.1.5",
+	"version": "1.1.6",
 	"description": "Web browser libraries shared to help to alleviate the difficulty of web browser application development",
 	"keywords": [
 		"TypeScript",
