@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Qia Keyboard Shortcut Helper</title>
+	<!-- qia browser libraries -->
+	<script src="../../qia-keyboard-shortcut-helper.js"></script>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		:root {
+			--primary-color: #505050;
+			--secondary-color: #767676;
+			--primary-background-color: #fdfdfd;
+			--secondary-background-color: #ffffff;
+		}
+
+		html,
+		body {
+			margin: 0;
+			border: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			padding: 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Qia Keyboard Shortcut Helper</h1>
+	<h2>Hints and Caveats</h2>
+	<ul>
+		<li>
+			<h3>IQiaKeyboardShortcutInputElement</h3>
+			<p>In general, it is recommended to use standard HTML <code>input[type="text"]</code> as IQiaKeyboardShortcutInputElement.
+				Other HTML elements are also supported, but the shortcut value detected will be written to the value property of the corresponding HTML element.</p>
+		</li>
+		<li>
+			<h3>IQiaKeyboardShortcutReactionAreaElement</h3>
+			<p>An HTML element of type IQiaKeyboardShortcutReactionAreaElement needs to be able to receive focus for receiving shortcut events.
+				(One good reference is <a href="https://stackoverflow.com/questions/3149362/capture-key-press-or-keydown-event-on-div-element" target="_blank"
+				rel="noopener noreferrer">StackOverflow: Capture key press (or keydown) event on DIV element</a>).
+			</p>
+			<p>It is recommended to use <code>document.body</code> as the last resort IQiaKeyboardShortcutReactionAreaElement because it is the top most typical HTMLElement.
+				(The <code>document.documentElement</code> and <code>window</code> are somehow hidden and not natural to force to have datas property.)</p>
+		</li>
+		<li>
+			<h3>Windows</h3>
+			<p>On windows, OS shortcuts (Win + base key) and some browser occupied shortcuts such as Ctrl+Shift+T cannot be used because browser doesn't provide necessary events to the application.</p>
+		</li>
+		<li>
+			<h3>macOS</h3>
+			<p>On macOS, Shortcuts including Command (Command + base key) are not supported because of the missing keyup events for the base keys. (May be supported later by taking usage of keydown events which are available)</p>
+		</li>
+	</ul>
+	<h2>Demonstration</h2>
+	<div class="controls" style="padding: 8px; border: 1px solid #505050; text-align: right;">
+		<button name="reload-page">Reload Page</button>
+	</div>
+
+	<div class="qia-keyboard-shortcut-helper-demonstration-box">
+		<h3>IQiaKeyboardShortcutInputElement</h3>
+		<div class="qia-keyboard-shortcut-inputs">
+			<input type="text" class="qia-keyboard-shortcut">
+			<input type="text" class="qia-keyboard-shortcut">
+			<input type="text" class="qia-keyboard-shortcut">
+		</div>
+		<h3>IQiaKeyboardShortcutReactionAreaElement</h3>
+		<div class="qia-keyboard-shortcut-reaction-areas">
+			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="yellow-page-zone" style="background-color: antiquewhite; height: 200px;">
+				<h4>Namespace: yellow-page-zone</h4>
+				<input type="text">
+			</div>
+			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="blue-page-zone" style="background-color:cornflowerblue; height: 200px;">
+				<h4>Namespace: blue-page-zone</h4>
+				<input type="text">
+			</div>
+		</div>
+	</div>
+
+	<h3>JavaScript Code of Usage Examples</h3>
+	<div class="code-container" style="overflow: auto;">
+		<code>
+			<pre>
+
+			</pre>
+		</code>
+	</div>
+
+	<script class="demo-code">
+		const QiaKeyboardShortcutHelper = window.qia.KeyboardShortcutHelper
+
+		// SECTION: qia-keyboard-shortcut-input
+
+		const qiaKeyboardShortcutInputElements = document.querySelectorAll('input.qia-keyboard-shortcut')
+
+		const qiaKeyboardShortcutInputElement1 = qiaKeyboardShortcutInputElements[1]
+		QiaKeyboardShortcutHelper.manageInputElement(qiaKeyboardShortcutInputElement1)
+		qiaKeyboardShortcutInputElement1.addEventListener('change', (event) => {
+			console.debug('qiaKeyboardShortcutInputElement1 change event:', event)
+		})
+
+		const qiaKeyboardShortcutInputElement2 = qiaKeyboardShortcutInputElements[2]
+		QiaKeyboardShortcutHelper.manageInputElement(qiaKeyboardShortcutInputElement2)
+		qiaKeyboardShortcutInputElement2.addEventListener('change', (event) => {
+			console.debug('qiaKeyboardShortcutInputElement2 change event:', event)
+		})
+
+		QiaKeyboardShortcutHelper.releaseInputElement(qiaKeyboardShortcutInputElement1)
+
+		// SECTION: qia-keyboard-shortcut-reaction
+
+		const qiaKeyboardShortcutReactionAreaElements = document.querySelectorAll('.qia-keyboard-shortcut-reaction-area')
+
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(document.body)
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(qiaKeyboardShortcutReactionAreaElements[0])
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(qiaKeyboardShortcutReactionAreaElements[1])
+
+		QiaKeyboardShortcutHelper.removeShortcutReactionAreaElement(qiaKeyboardShortcutReactionAreaElements[0])
+
+		const handleCtrlF = (event) => {
+			console.debug(`The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`)
+			console.debug(event)
+		}
+		const handleCtrlG = (event) => {
+			console.debug(`The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`)
+			console.debug(event)
+		}
+		const handleCtrlH = (event) => {
+			console.debug(`The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`)
+			console.debug(event)
+		}
+		const shortcutListenerConfig1 = { namespace: 'yellow-page-zone' }
+		const shortcutListenerConfig2 = { namespace: 'blue-page-zone' }
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF)
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfig1)
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfig2)
+		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfig1)
+		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfig2)
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+H', handleCtrlH)
+
+		QiaKeyboardShortcutHelper.removeShortcutListener('control+g', handleCtrlG, shortcutListenerConfig2)
+		QiaKeyboardShortcutHelper.removeShortcutListener('Ctrl+H', handleCtrlH)
+
+		// SECTION: global
+
+		document.querySelector('button[name="reload-page"]').addEventListener('click', () => {
+			QiaKeyboardShortcutHelper.releaseAllInputElements()
+			QiaKeyboardShortcutHelper.removeAllShortcutReactionAreaElements()
+			QiaKeyboardShortcutHelper.removeAllShortcutListeners()
+
+			window.location.reload()
+		})
+	</script>
+
+	<script>
+		const codePreElement = document.querySelector('code pre')
+		const demoCodeElement = document.querySelector('script.demo-code')
+		if (codePreElement && demoCodeElement) {
+			codePreElement.innerHTML = demoCodeElement.innerHTML
+		}
+	</script>
+</body>
+
+</html>
