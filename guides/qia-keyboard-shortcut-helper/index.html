@@ -57,11 +57,9 @@
 			<h3>Windows</h3>
 			<p>On windows, OS shortcuts (Win + base key) and some browser occupied shortcuts such as Ctrl+Shift+T cannot be used because browser doesn't provide necessary events to the application.</p>
 		</li>
-		<li>
-			<h3>macOS</h3>
-			<p>On macOS, Shortcuts including Command (Command + base key) are not supported because of the missing keyup events for the base keys. (May be supported later by taking usage of keydown events which are available)</p>
-		</li>
 	</ul>
+	<p>For more details, please check the API documents.</p>
+
 	<h2>Demonstration</h2>
 	<div class="controls" style="padding: 8px; border: 1px solid #505050; text-align: right;">
 		<button name="reload-page">Reload Page</button>
@@ -69,18 +67,21 @@
 
 	<div class="qia-keyboard-shortcut-helper-demonstration-box">
 		<h3>IQiaKeyboardShortcutInputElement</h3>
+		<p>Try to press keyboard keys in the 3rd input box which is managed by QiaKeyboardShortcutHelper.</p>
 		<div class="qia-keyboard-shortcut-inputs">
 			<input type="text" class="qia-keyboard-shortcut">
 			<input type="text" class="qia-keyboard-shortcut">
 			<input type="text" class="qia-keyboard-shortcut">
 		</div>
 		<h3>IQiaKeyboardShortcutReactionAreaElement</h3>
-		<div class="qia-keyboard-shortcut-reaction-areas">
-			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="yellow-page-zone" style="background-color: antiquewhite; height: 200px;">
+		<p>Try to press ['Ctrl+F', 'command+f', 'shift+command+t', 'ctrl+shift+t', 'ctrl+-', 'ctrl++', 'ctrl+#', 'ctrl+@', 'ß'] in the following two input boxes or outside the input boxes. </p>
+		<div class="qia-keyboard-shortcut-reaction-result" style="box-sizing: border-box; min-height: 1em; padding: .3em; background-color: #505050; color: white;"></div>
+		<div class="qia-keyboard-shortcut-reaction-areas" style="display: flex;">
+			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="yellow-page-zone" style="flex: 1 0 auto; background-color: antiquewhite; height: 200px;">
 				<h4>Namespace: yellow-page-zone</h4>
 				<input type="text">
 			</div>
-			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="blue-page-zone" style="background-color:cornflowerblue; height: 200px;">
+			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="blue-page-zone" style="flex: 1 0 auto; background-color:cornflowerblue; height: 200px;">
 				<h4>Namespace: blue-page-zone</h4>
 				<input type="text">
 			</div>
@@ -127,21 +128,38 @@
 
 		QiaKeyboardShortcutHelper.removeShortcutReactionAreaElement(qiaKeyboardShortcutReactionAreaElements[0])
 
-		const handleCtrlF = (event) => {
-			console.debug(`The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`)
+		const qiaKeyboardShortcutReactionResultElement = document.querySelector('.qia-keyboard-shortcut-reaction-result')
+		const handleShortcut = (event) => {
+			qiaKeyboardShortcutReactionResultElement.textContent = `The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} is handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`
 			console.debug(event)
 		}
-		const handleCtrlG = (event) => {
-			console.debug(`The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`)
-			console.debug(event)
-		}
-		const handleCtrlH = (event) => {
-			console.debug(`The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`)
-			console.debug(event)
-		}
+
+		const handleCtrlF = handleShortcut
+		const handleCtrlShiftT = handleShortcut
+		const handleMetaF = handleShortcut
+		const handleShiftMetaT = handleShortcut
+		const handleCtrlMinus = handleShortcut
+		const handleCtrlPlus = handleShortcut
+		const handleCtrlNumberSign = handleShortcut
+		const handleCtrlAtSign = handleShortcut
+		const handleEszett = handleShortcut
+		const handleCtrlG = handleShortcut
+		const handleCtrlH = handleShortcut
+
 		const shortcutListenerConfig1 = { namespace: 'yellow-page-zone' }
 		const shortcutListenerConfig2 = { namespace: 'blue-page-zone' }
+
+		QiaKeyboardShortcutHelper.extendSpeciallySupportedKeys(['#', '@', 'ß'])
+
 		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF)
+		QiaKeyboardShortcutHelper.addShortcutListener('command+f', handleMetaF)
+		QiaKeyboardShortcutHelper.addShortcutListener('shift+command+t', handleShiftMetaT)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+shift+t', handleCtrlShiftT)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+-', handleCtrlMinus)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl++', handleCtrlPlus)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+#', handleCtrlNumberSign)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+@', handleCtrlAtSign)
+		QiaKeyboardShortcutHelper.addShortcutListener('ß', handleEszett)
 		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfig1)
 		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfig2)
 		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfig1)

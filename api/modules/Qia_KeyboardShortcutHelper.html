@@ -68,11 +68,38 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>There are still several known limitations which are not resolved.</p>
+						<p>The supported shortcut strings should be made up with a base key string and several optional modifier key strings connected with &quot;+&quot;,
+						such as &quot;Space&quot;, &quot;Ctrl+Alt+Q&quot; and &quot;control+option+z&quot;.</p>
 					</div>
+					<p>Supported key strings are case-insensitive and should be from the following:</p>
 					<ul>
-						<li>on macOS, shortcuts including the Command key do not work as expected (and it is so common to have the Command key in the shortcuts)</li>
-						<li>on Windows, shortcuts including the Win key and some other shortcuts occupied by the browser in use do not work as expected</li>
+						<li>One optional ctrl key string in [&quot;Ctrl&quot;,&quot;control&quot;]</li>
+						<li>One optional alt key string in [&quot;Alt&quot;,&quot;option&quot;]</li>
+						<li>One optional shift key string in [&quot;Shift&quot;, &quot;shift&quot;]</li>
+						<li>One optional meta key string in [&quot;Meta&quot;,&quot;Windows&quot;,&quot;command&quot;,&quot;OS&quot;,&quot;Win&quot;,&quot;Cmd&quot;]</li>
+						<li>One base key string in [ &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;, &quot;H&quot;, &quot;I&quot;, &quot;J&quot;, &quot;K&quot;, &quot;L&quot;, &quot;M&quot;, &quot;N&quot;, &quot;O&quot;, &quot;P&quot;, &quot;Q&quot;, &quot;R&quot;, &quot;S&quot;, &quot;T&quot;, &quot;U&quot;, &quot;V&quot;, &quot;W&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;, &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;F1&quot;, &quot;F2&quot;, &quot;F3&quot;, &quot;F4&quot;, &quot;F5&quot;, &quot;F6&quot;, &quot;F7&quot;, &quot;F8&quot;, &quot;F9&quot;, &quot;F10&quot;, &quot;F11&quot;, &quot;F12&quot;, &quot;F13&quot;, &quot;F14&quot;, &quot;F15&quot;, &quot;F16&quot;, &quot;F17&quot;, &quot;F18&quot;, &quot;F19&quot;, &quot;F20&quot;, &quot;Space&quot;, &quot;Escape&quot;, &quot;Tab&quot;, &quot;Backspace&quot;, &quot;Enter&quot;, &quot;Insert&quot;, &quot;Delete&quot;, &quot;Home&quot;, &quot;End&quot;, &quot;PageUp&quot;, &quot;PageDown&quot;, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot; ]</li>
+					</ul>
+					<p>Besides the above normal standard shortcuts, there are also several specially supported shortcuts with specially supported base keys.
+						These specially supported base keys include [&#39;-&#39;, &#39;=&#39;].
+					Necessary to mention, when using these specially supported base keys in shortcuts, there are changes to modifiers:</p>
+					<ol>
+						<li>The Alt and Shift modifier keys are not allowed because they are commonly required to generate the specially supported keys on keyboards which don&#39;t directly provide these keys</li>
+						<li>The Ctrl modifier key is only usable when the specially supported base key in use doesn&#39;t require Alt key to generate.</li>
+					</ol>
+					<p>If the specially supported keys still don&#39;t include the ones needed, it is also possible to add more specially supported keys.
+					For example, after executing <code>QiaKeyboardShortcutHelper.extendSpeciallySupportedKeys([&#39;#&#39;, &#39;ß&#39;])</code>, it is possible to do <code>QiaKeyboardShortcutHelper.addShortcutListener(&#39;ß&#39;, handleEszett)</code>, which could be very useful on German keyboards.</p>
+					<p>And when a combination of keys matches both specially supported shortcuts and normally supported shortcuts, the specially supported shortcut takes precedence.
+					In other words, on English US keyboards, when &#39;#&#39; is added as one of the specially supported keys, &#39;#&#39; takes precedence over &#39;Shift+3&#39; and &#39;Ctrl+#&#39; takes precedence over &#39;Ctrl+Shift+3&#39;.</p>
+					<p>And for both the normally and specially supported shortcuts, there are still several known limitations which are not yet resolved.</p>
+					<ul>
+						<li>on Windows, shortcuts including the Win key and possibly some other shortcuts occupied by the browser in use do not work as expected<ul>
+								<li>when the Win key is pressed, the base keys have no keydown events and the keyup events of the base keys have no Win key state<ul>
+										<li>as tested on the newest Chrome and Firefox on Microsoft Go 2 as of 20210915</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>Numpad is not yet considered</li>
 					</ul>
 				</div>
 			</section>
@@ -105,6 +132,9 @@
 				<ul>
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="Qia_AudioPlayer.html">Qia.<wbr>Audio<wbr>Player</a>
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="Qia_KeyboardShortcutHelper.html">Qia.<wbr>Keyboard<wbr>Shortcut<wbr>Helper</a>

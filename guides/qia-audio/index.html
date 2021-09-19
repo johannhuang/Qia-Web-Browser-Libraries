@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Qia Audio</title>
+	<!-- qia browser libraries -->
+	<script src="../../qia-audio.js"></script>
+</head>
+
+<body>
+	<h1>Qia Audio</h1>
+
+	<h2>Demonstration</h2>
+	<div class="controls" style="padding: 8px; border: 1px solid #505050; text-align: right;">
+		<button name="reload-page">Reload Page</button>
+		<hr>
+		<p>Play audio from URL:</p>
+		<button name="play-audio-0">Play Audio from URL</button>
+		<button name="stop-audio-0">Stop Audio Played from URL</button>
+		<hr>
+		<p>Load AudioClip from URL and then play:</p>
+		<progress name="active-audio" value="0" style="display: block; width: 100%;"></progress>
+		<button name="play-audio-1">Load and Play Audio from URL 1</button>
+		<button name="play-audio-2">Load and Play Audio from URL 2</button>
+		<br>
+		<button name="stop-audio-1o2">Stop Audio for URL 1|2</button>
+		<hr>
+		<p>Play pre-loaded AudioClips:</p>
+		<button name="play-audioclip-1n2">Play AudioClip 1&2</button>
+		<br>
+		<small>AudioClip1 starts right away and AudioClip2 starts 3s later</small>
+		<br>
+		<button name="mute-audioclip-1">Mute AudioClip 1</button>
+		<button name="unmute-audioclip-1">Unmute AudioClip 1</button>
+		<br>
+		<button name="mute-audioclip-2">Mute AudioClip 2</button>
+		<button name="unmute-audioclip-2">Unmute AudioClip 2</button>
+		<br>
+		<button name="stop-audioclip-1n2">Stop AudioClip 1&2</button>
+	</div>
+
+	<h3>Qia Audio Player</h3>
+	<p>The audio player has no GUI. Please check the console output for more details of how this demo page behaves.</p>
+
+	<h3>JavaScript Code of Usage Examples</h3>
+	<div class="code-container" style="overflow: auto;">
+		<code>
+			<pre>
+
+			</pre>
+		</code>
+	</div>
+
+	<script class="demo-code">
+		const simpleAudioProgressElement = document.querySelector('progress[name="simple-audio"]')
+		const activeAudioProgressElement = document.querySelector('progress[name="active-audio"]')
+
+		const { AudioPlayer: QiaAudioPlayer } = window.qia.Audio
+		// NOTE: 20210919, add a listener of touchstart events to play the first audio to get over the browser autoplay limitation
+		// QiaAudioPlayer.enableAutoplay()
+
+		// NOTE: 20210919, Demo audio files are downloaded from https://www.chosic.com/free-music/all/?sort=&attribution=no.
+		const audioURL1 = 'audio/John_Bartmann_-_04_-_Earning_Happiness.mp3'
+		const audioURL2 = 'audio/John_Bartmann_-_09_-_Happy_Clappy-1.mp3'
+
+		// SECTION: Basic audio playout from URLs
+		let audioClipsFromURLDict = {}
+		const playAudioFromFileURL = (audioURL) => {
+			QiaAudioPlayer.playAudioFromFileURL(audioURL).then((audioClip) => {
+				audioClipsFromURLDict[audioURL] = audioClip
+			})
+		}
+		const stopAudioPlayedFromFileURL = (audioURL) => {
+			const audioClip = audioClipsFromURLDict[audioURL]
+			if (audioClip) {
+				QiaAudioPlayer.stopAudioClip(audioClip)
+				audioClipsFromURLDict[audioURL] = null
+			}
+		}
+
+		// SECTION: Custom audio playout from URLs
+
+		// SUB SECTION: Optional: Custom Event Based Programming Pattern
+
+		const audioStartEventListeners = []
+		const audioStopEventListeners = []
+		const onAudioStart = () => {
+			console.debug('Event: AudioStart')
+			audioStartEventListeners.forEach(handler => handler())
+		}
+		const onAudioStop = () => {
+			console.debug('Event: AudioStop')
+			audioStopEventListeners.forEach(handler => handler())
+		}
+
+		// SUB SECTION: Custom load and playout from URLs
+
+		let activeAudioClip
+		QiaAudioPlayer.addTimeUpdateListener((currentTime) => {
+			console.debug(`Event: QiaAudioPlayer.TimeUpdate: currentTime:`, currentTime)
+
+			if (!activeAudioClip) {
+				activeAudioProgressElement.value = null
+			} else {
+				activeAudioProgressElement.value = (currentTime - activeAudioClip.startTime) / activeAudioClip.duration
+			}
+		})
+		const stopActiveAudio = () => {
+			if (!activeAudioClip) return
+
+			QiaAudioPlayer.stopAudioClip(activeAudioClip)
+			activeAudioClip = null
+		}
+		const playAudioFromURLAsActiveAudio = (audioURL) => {
+			stopActiveAudio()
+
+			onAudioStart()
+
+			QiaAudioPlayer.loadAudioClip(audioURL).then((audioClip) => {
+				QiaAudioPlayer.playAudioClip(audioClip)
+
+				audioClip.bufferSourceNode.addEventListener('ended', () => {
+					// console.debug(`audioClip{startTime:${audioClip.startTime}} ended`)
+					onAudioStop()
+				})
+
+				activeAudioClip = audioClip
+			})
+		}
+
+		// SECTION: Custom pre-loaded AudioClips scheduled playout
+
+		let audioClip1
+		let audioClip2
+		const loadAudioClips = () => {
+			Promise.all([
+				QiaAudioPlayer.loadAudioClip(audioURL1).then((audioClip) => {
+					audioClip1 = audioClip
+				}),
+				QiaAudioPlayer.loadAudioClip(audioURL2).then((audioClip) => {
+					audioClip2 = audioClip
+				})
+			]).then(() => {
+				console.info('AudioClip1 and AudioClip2 are loaded.')
+			})
+		}
+		const playAudioClips = () => {
+			QiaAudioPlayer.playAudioClip(audioClip1)
+			console.info('AudioClip1 is scheduled to start.')
+
+			QiaAudioPlayer.playAudioClip(audioClip2, {
+				startTimeOffset: 3
+			})
+			console.info('AudioClip2 is scheduled to start 3s later.')
+		}
+		const stopAudioClips = () => {
+			QiaAudioPlayer.stopAudioClip(audioClip1)
+			QiaAudioPlayer.stopAudioClip(audioClip2)
+
+			console.info('AudioClip1 and AudioClip2 are scheduled to stop.')
+		}
+
+		loadAudioClips()
+
+		// SECTION: User Controls
+
+		document.querySelector('button[name="play-audio-0"]').addEventListener('click', () => {
+			playAudioFromFileURL(audioURL1)
+		})
+		document.querySelector('button[name="stop-audio-0"]').addEventListener('click', () => {
+			stopAudioPlayedFromFileURL(audioURL1)
+		})
+
+		document.querySelector('button[name="play-audio-1"]').addEventListener('click', () => {
+			playAudioFromURLAsActiveAudio(audioURL1)
+		})
+		document.querySelector('button[name="play-audio-2"]').addEventListener('click', () => {
+			playAudioFromURLAsActiveAudio(audioURL2)
+		})
+		document.querySelector('button[name="stop-audio-1o2"]').addEventListener('click', () => {
+			stopActiveAudio()
+		})
+
+		document.querySelector('button[name="play-audioclip-1n2"]').addEventListener('click', () => {
+			playAudioClips()
+		})
+		document.querySelector('button[name="mute-audioclip-1"]').addEventListener('click', () => {
+			QiaAudioPlayer.muteAudioClip(audioClip1)
+		})
+		document.querySelector('button[name="unmute-audioclip-1"]').addEventListener('click', () => {
+			QiaAudioPlayer.unmuteAudioClip(audioClip1)
+		})
+		document.querySelector('button[name="mute-audioclip-2"]').addEventListener('click', () => {
+			QiaAudioPlayer.muteAudioClip(audioClip2)
+		})
+		document.querySelector('button[name="unmute-audioclip-2"]').addEventListener('click', () => {
+			QiaAudioPlayer.unmuteAudioClip(audioClip2)
+		})
+		document.querySelector('button[name="stop-audioclip-1n2"]').addEventListener('click', () => {
+			stopAudioClips()
+		})
+
+		document.querySelector('button[name="reload-page"]').addEventListener('click', () => {
+			window.location.reload()
+		})
+	</script>
+	<script>
+		const codePreElement = document.querySelector('code pre')
+		const demoCodeElement = document.querySelector('script.demo-code')
+		if (codePreElement && demoCodeElement) {
+			codePreElement.innerHTML = demoCodeElement.innerHTML
+		}
+	</script>
+</body>
+
+</html>
