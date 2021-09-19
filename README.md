@@ -12,10 +12,8 @@ As a summary, there are currently 4 modules in this package.
 
 ## Installation
 
-* NPMJS.org: <https://www.npmjs.com/package/qia-browser-libraries>
-
 ```
-npm install qia-browser-libraries
+npm install qia-browser-libraries # https://www.npmjs.com/package/qia-browser-libraries
 ```
 
 
