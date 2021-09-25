@@ -37,28 +37,8 @@
 
 <body>
 	<h1>Qia Keyboard Shortcut Helper</h1>
-	<h2>Hints and Caveats</h2>
-	<ul>
-		<li>
-			<h3>IQiaKeyboardShortcutInputElement</h3>
-			<p>In general, it is recommended to use standard HTML <code>input[type="text"]</code> as IQiaKeyboardShortcutInputElement.
-				Other HTML elements are also supported, but the shortcut value detected will be written to the value property of the corresponding HTML element.</p>
-		</li>
-		<li>
-			<h3>IQiaKeyboardShortcutReactionAreaElement</h3>
-			<p>An HTML element of type IQiaKeyboardShortcutReactionAreaElement needs to be able to receive focus for receiving shortcut events.
-				(One good reference is <a href="https://stackoverflow.com/questions/3149362/capture-key-press-or-keydown-event-on-div-element" target="_blank"
-				rel="noopener noreferrer">StackOverflow: Capture key press (or keydown) event on DIV element</a>).
-			</p>
-			<p>It is recommended to use <code>document.body</code> as the last resort IQiaKeyboardShortcutReactionAreaElement because it is the top most typical HTMLElement.
-				(The <code>document.documentElement</code> and <code>window</code> are somehow hidden and not natural to force to have datas property.)</p>
-		</li>
-		<li>
-			<h3>Windows</h3>
-			<p>On windows, OS shortcuts (Win + base key) and some browser occupied shortcuts such as Ctrl+Shift+T cannot be used because browser doesn't provide necessary events to the application.</p>
-		</li>
-	</ul>
-	<p>For more details, please check the API documents.</p>
+
+	<p><i>For details of how to use this library, please check the API documents.</i></p>
 
 	<h2>Demonstration</h2>
 	<div class="controls" style="padding: 8px; border: 1px solid #505050; text-align: right;">
@@ -66,26 +46,36 @@
 	</div>
 
 	<div class="qia-keyboard-shortcut-helper-demonstration-box">
-		<h3>IQiaKeyboardShortcutInputElement</h3>
-		<p>Try to press keyboard keys in the 3rd input box which is managed by QiaKeyboardShortcutHelper.</p>
-		<div class="qia-keyboard-shortcut-inputs">
-			<input type="text" class="qia-keyboard-shortcut">
-			<input type="text" class="qia-keyboard-shortcut">
-			<input type="text" class="qia-keyboard-shortcut">
-		</div>
-		<h3>IQiaKeyboardShortcutReactionAreaElement</h3>
-		<p>Try to press ['Ctrl+F', 'command+f', 'shift+command+t', 'ctrl+shift+t', 'ctrl+-', 'ctrl++', 'ctrl+#', 'ctrl+@', 'ß'] in the following two input boxes or outside the input boxes. </p>
-		<div class="qia-keyboard-shortcut-reaction-result" style="box-sizing: border-box; min-height: 1em; padding: .3em; background-color: #505050; color: white;"></div>
-		<div class="qia-keyboard-shortcut-reaction-areas" style="display: flex;">
-			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="yellow-page-zone" style="flex: 1 0 auto; background-color: antiquewhite; height: 200px;">
-				<h4>Namespace: yellow-page-zone</h4>
-				<input type="text">
+		<!-- NOTE: 20210925, adding form[autocomplete="off"] to avoid the known "bug/feature" that firefox will remember what you entered before you hit refresh. -->
+		<form autocomplete="off">
+			<h3>IQiaKeyboardShortcutInputElement</h3>
+			<div class="qia-keyboard-shortcut-inputs">
+				<input type="text" class="qia-keyboard-shortcut" placeholder="Not managed by QiaKeyboardShortcutHelper">
+				<input type="text" class="qia-keyboard-shortcut"
+					placeholder="Registred and then deregistered to be managed by QiaKeyboardShortcutHelper">
+				<input type="text" class="qia-keyboard-shortcut" placeholder="Managed by QiaKeyboardShortcutHelper">
 			</div>
-			<div class="qia-keyboard-shortcut-reaction-area" data-namespace="blue-page-zone" style="flex: 1 0 auto; background-color:cornflowerblue; height: 200px;">
-				<h4>Namespace: blue-page-zone</h4>
-				<input type="text">
+			<p>Try to press keyboard keys in the 3rd input box (which is managed by QiaKeyboardShortcutHelper) to check the functionalities.</p>
+			<h3>IQiaKeyboardShortcutReactionAreaElement</h3>
+			<div class="qia-keyboard-shortcut-reaction-result"
+				style="box-sizing: content-box; height: 1em; padding: .3em; background-color: #505050; color: white;"></div>
+			<div class="qia-keyboard-shortcut-reaction-areas" style="display: flex;">
+				<div class="qia-keyboard-shortcut-reaction-area" data-namespace="yellow-page-zone"
+					style="flex: 1 0 auto; background-color: antiquewhite; height: 200px;">
+					<h4>Namespace: yellow-page-zone</h4>
+					<p>This page area is registered and then deregistered as a shortcut reaction area.</p>
+					<input type="text">
+				</div>
+				<div class="qia-keyboard-shortcut-reaction-area" data-namespace="blue-page-zone"
+					style="flex: 1 0 auto; background-color:cornflowerblue; height: 200px;">
+					<h4>Namespace: blue-page-zone</h4>
+					<p>This page area is registered as a shortcut area.</p>
+					<input type="text">
+				</div>
 			</div>
-		</div>
+			<p>Try to press the following listed shortcuts in the above two input boxes or outside the input boxes to check the functionalities. </p>
+			<ul class="qia-keyboard-shortcut-registered-shortcuts"></ul>
+		</form>
 	</div>
 
 	<h3>JavaScript Code of Usage Examples</h3>
@@ -130,44 +120,98 @@
 
 		const qiaKeyboardShortcutReactionResultElement = document.querySelector('.qia-keyboard-shortcut-reaction-result')
 		const handleShortcut = (event) => {
-			qiaKeyboardShortcutReactionResultElement.textContent = `The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace} is handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`
+			qiaKeyboardShortcutReactionResultElement.textContent = `The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace || 'GLOBAL'} is handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`
 			console.debug(event)
 		}
 
-		const handleCtrlF = handleShortcut
-		const handleCtrlShiftT = handleShortcut
 		const handleMetaF = handleShortcut
+		const handleMetaT = handleShortcut
 		const handleShiftMetaT = handleShortcut
+		const handleCtrlShiftT = handleShortcut
+		const handleMinus = handleShortcut
+		const handlePlus = handleShortcut
 		const handleCtrlMinus = handleShortcut
 		const handleCtrlPlus = handleShortcut
+		const handleNumberSign = handleShortcut
+		const handleAtSign = handleShortcut
+		const handleEszett = handleShortcut
 		const handleCtrlNumberSign = handleShortcut
 		const handleCtrlAtSign = handleShortcut
-		const handleEszett = handleShortcut
+		const handleCtrlEszett = handleShortcut
+
+		const handleCtrlAltO = handleShortcut
+
+		const handleCtrlF = handleShortcut
 		const handleCtrlG = handleShortcut
 		const handleCtrlH = handleShortcut
 
-		const shortcutListenerConfig1 = { namespace: 'yellow-page-zone' }
-		const shortcutListenerConfig2 = { namespace: 'blue-page-zone' }
+		const shortcutListenerConfig1 = {
+			name: 'Control+F',
+			description: 'Find'
+		}
+		const shortcutListenerConfig2 = {
+			name: 'Control+G',
+			description: 'Find Next'
+		}
+		const shortcutListenerConfigY1 = {
+			namespace: 'yellow-page-zone',
+			name: 'Control+F (yellow-page-zone)',
+			description: 'Find in Yellow Page Zone'
+		}
+		const shortcutListenerConfigY2 = {
+			namespace: 'yellow-page-zone',
+			name: 'Control+G (yellow-page-zone)',
+			description: 'Find Next in Yellow Page Zone'
+		}
+		const shortcutListenerConfigB1 = {
+			namespace: 'blue-page-zone',
+			name: 'Control+F (blue-page-zone)',
+			description: 'Find in Blue Page Zone'
+		}
+		const shortcutListenerConfigB2 = {
+			namespace: 'blue-page-zone',
+			name: 'Control+G (blue-page-zone)',
+			description: 'Find Nex in Blue Page Zone'
+		}
 
 		QiaKeyboardShortcutHelper.extendSpeciallySupportedKeys(['#', '@', 'ß'])
 
-		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF)
-		QiaKeyboardShortcutHelper.addShortcutListener('command+f', handleMetaF)
-		QiaKeyboardShortcutHelper.addShortcutListener('shift+command+t', handleShiftMetaT)
-		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+shift+t', handleCtrlShiftT)
-		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+-', handleCtrlMinus)
-		QiaKeyboardShortcutHelper.addShortcutListener('ctrl++', handleCtrlPlus)
-		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+#', handleCtrlNumberSign)
-		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+@', handleCtrlAtSign)
-		QiaKeyboardShortcutHelper.addShortcutListener('ß', handleEszett)
 		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfig1)
-		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfig2)
-		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfig1)
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfigY1)
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+F', handleCtrlF, shortcutListenerConfigB1)
 		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfig2)
+		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfigY2)
+		QiaKeyboardShortcutHelper.addShortcutListener('control+g', handleCtrlG, shortcutListenerConfigB2)
 		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+H', handleCtrlH)
 
-		QiaKeyboardShortcutHelper.removeShortcutListener('control+g', handleCtrlG, shortcutListenerConfig2)
+		QiaKeyboardShortcutHelper.removeShortcutListener('control+g', handleCtrlG, shortcutListenerConfigB2)
 		QiaKeyboardShortcutHelper.removeShortcutListener('Ctrl+H', handleCtrlH)
+
+		QiaKeyboardShortcutHelper.addShortcutListener('Ctrl+Alt+O', handleCtrlAltO)
+
+		QiaKeyboardShortcutHelper.addShortcutListener('command+f', handleMetaF)
+		QiaKeyboardShortcutHelper.addShortcutListener('command+t', handleMetaT)
+		QiaKeyboardShortcutHelper.addShortcutListener('shift+command+t', handleShiftMetaT)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+shift+t', handleCtrlShiftT)
+		QiaKeyboardShortcutHelper.addShortcutListener('-', handleMinus)
+		QiaKeyboardShortcutHelper.addShortcutListener('+', handlePlus)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+-', handleCtrlMinus)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl++', handleCtrlPlus)
+		QiaKeyboardShortcutHelper.addShortcutListener('#', handleNumberSign)
+		QiaKeyboardShortcutHelper.addShortcutListener('@', handleAtSign)
+		QiaKeyboardShortcutHelper.addShortcutListener('ß', handleEszett)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+#', handleCtrlNumberSign)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+@', handleCtrlAtSign)
+		QiaKeyboardShortcutHelper.addShortcutListener('ctrl+ß', handleCtrlEszett)
+
+		const registeredShortcutsList = document.querySelector('[class~="qia-keyboard-shortcut-registered-shortcuts"]')
+		const registeredShortcutListeners = QiaKeyboardShortcutHelper.getAllShortcutListeners()
+		registeredShortcutListeners.forEach((listener) => {
+			const shortcutListItem = document.createElement('li')
+			shortcutListItem.innerHTML = `${listener.config?.namespace||'GLOBAL'}:${listener.shortcut}, Name: ${listener.config?.name || 'UNDEFINED'}, Description: ${listener.config?.description || 'UNDEFINED'}
+			<br> &nbsp;&nbsp; (${listener.shortcutRepresentationForMacOS} on macOS, ${listener.shortcutRepresentationForWindows} on Windows and ${listener.shortcutRepresentation} in General)`
+			registeredShortcutsList.appendChild(shortcutListItem)
+		})
 
 		// SECTION: global
 
