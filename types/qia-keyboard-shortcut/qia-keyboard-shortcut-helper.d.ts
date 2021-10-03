@@ -11,7 +11,12 @@
  * - One optional alt key string in ["Alt","option"]
  * - One optional shift key string in ["Shift", "shift"]
  * - One optional meta key string in ["Meta","Windows","command","OS","Win","Cmd"]
- * - One base key string in [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20", "Space", "Escape", "Tab", "Backspace", "Enter", "Insert", "Delete", "Home", "End", "PageUp", "PageDown", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight" ]
+ * - One base key string in [
+ * "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+ * "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+ * "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20",
+ * "Space", "Escape", "Tab", "Backspace", "Enter", "Insert", "Delete", "Home", "End", "PageUp", "PageDown", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"
+ * ] and some other implicitly supported keys such as "Clear" if the keyboard in use can generate the needed keys
  *
  * Besides the above normal standard shortcuts, there are also several specially supported shortcuts with specially supported base keys.
  * These specially supported base keys include ['-', '+'].
@@ -46,7 +51,6 @@
  * - OS shortcuts (such as Win + base key on Windows) and some browser occupied shortcuts (such as Ctrl+Shift+T on Windows and Command+T on macOS) cannot be used because the browser in use doesn't provide necessary events or process rights to the application in the browser.
  * 	- on Windows, when the Win key is pressed, the base keys have no keydown events and the keyup events of the base keys have no Win key state
  * 		- as tested on the newest Chrome and Firefox on Microsoft Go 2 as of 20210915
- * - Numpad keys are not yet considered. (They may or may not work.)
  *
  * @module Qia.KeyboardShortcutHelper
  */

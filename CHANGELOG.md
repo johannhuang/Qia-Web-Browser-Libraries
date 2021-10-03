@@ -1,5 +1,9 @@
 # Changelog
 
+* 2021/10/03
+	* supported unknown keys which don't generate single unicode characters
+	* supported Numpad digit keys
+	* BREAKING CHANGE: renamed several modules and therefore using a new set of naming conventions
 * 2021/09/25
 	* supported retrieving all shortcuts with name and description for making dedicate page listing all shortcuts
 * 2021/09/19

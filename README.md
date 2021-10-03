@@ -3,11 +3,12 @@
 As a summary, there are currently 4 modules in this package.
 
 * Qia.Text
-    * MarkDownText
-* Qia.LayoutHelper
-* Qia.KeyboardShortcutHelper
+	* MarkDownText
+* Qia.Layout
+* Qia.KeyboardShortcut
+	* KeyboardShortcutHelper
 * Qia.Audio
-    * AudioPlayer
+	* AudioPlayer
 
 
 ## Installation
