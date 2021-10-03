@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Qia.KeyboardShortcutHelper: Use Case 02: I want to use the same shortcuts in different areas in my SPA for different actions.</title>
+	<script src="../../../qia-keyboard-shortcut.js"></script>
+</head>
+
+<body>
+	<h1>Qia.KeyboardShortcutHelper: Use Case 02: I want to use the same shortcuts in different areas in my SPA for different actions.</h1>
+	<h2>Hints</h2>
+	<p>Focus on different page areas (GLOBAL, yellow-page-zone and blue-page-zone) first and then press "Space" key to check reaction results.</p>
+	<h2>Shortcut Reaction Result and Recipient Sub-Areas</h2>
+	<div class="qia-keyboard-shortcut-reaction-result"
+		style="box-sizing: content-box; height: 1em; padding: .3em; background-color: #505050; color: white;"></div>
+	<div class="qia-keyboard-shortcut-reaction-areas" style="display: flex;">
+		<div data-namespace="yellow-page-zone"
+			class="qia-keyboard-shortcut-reaction-area"
+			tabindex="1"
+			style="flex: 1 0 auto; background-color: antiquewhite; height: 200px;">
+			<h3>Namespace: yellow-page-zone</h3>
+		</div>
+		<div data-namespace="blue-page-zone"
+			class="qia-keyboard-shortcut-reaction-area"
+			tabindex="2"
+			style="flex: 1 0 auto; background-color:cornflowerblue; height: 200px;">
+			<h3>Namespace: blue-page-zone</h3>
+		</div>
+	</div>
+	<h2>JavaScript Code of Usage Examples</h2>
+	<div class="code-container" style="overflow: auto;">
+		<code>
+				<pre>
+
+				</pre>
+			</code>
+	</div>
+	<script class="demo-code">
+		const QiaKeyboardShortcutHelper = window.qia.KeyboardShortcut.KeyboardShortcutHelper
+		const qiaKeyboardShortcutReactionResultElement = document.querySelector('.qia-keyboard-shortcut-reaction-result')
+		const myShortcutCallback = (event) => {
+			qiaKeyboardShortcutReactionResultElement.innerHTML = `The shortcut ${event.detail.shortcut} under namespace <b>!!!${event.detail.config?.namespace || 'GLOBAL'}!!!</b> is handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`
+			console.debug(event)
+		}
+
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(document.body)
+		QiaKeyboardShortcutHelper.addShortcutListener('Space', myShortcutCallback)
+
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(document.querySelector('[data-namespace="yellow-page-zone"]'))
+		const shortcutListenerConfigYellowPageZone = {
+			namespace: 'yellow-page-zone'
+		}
+		QiaKeyboardShortcutHelper.addShortcutListener('Space', myShortcutCallback, shortcutListenerConfigYellowPageZone)
+
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(document.querySelector('[data-namespace="blue-page-zone"]'))
+		const shortcutListenerConfigBluePageZone = {
+			namespace: 'blue-page-zone'
+		}
+		QiaKeyboardShortcutHelper.addShortcutListener('Space', myShortcutCallback, shortcutListenerConfigBluePageZone)
+	</script>
+	<script>
+		const codePreElement = document.querySelector('code pre')
+		const demoCodeElement = document.querySelector('script.demo-code')
+		if (codePreElement && demoCodeElement) {
+			codePreElement.innerHTML = demoCodeElement.innerHTML
+		}
+	</script>
+</body>
+
+</html>
