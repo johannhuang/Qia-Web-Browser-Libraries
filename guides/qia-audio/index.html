@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Qia Audio</title>
 	<!-- qia browser libraries -->
-	<script src="../../qia-audio.js"></script>
+	<script src="../../qia-audio-player.js"></script>
 </head>
 
 <body>
@@ -58,7 +58,7 @@
 		const simpleAudioProgressElement = document.querySelector('progress[name="simple-audio"]')
 		const activeAudioProgressElement = document.querySelector('progress[name="active-audio"]')
 
-		const { AudioPlayer: QiaAudioPlayer } = window.qia.Audio
+		const QiaAudioPlayer = window.qia.AudioPlayer
 		// NOTE: 20210919, add a listener of touchstart events to play the first audio to get over the browser autoplay limitation
 		// QiaAudioPlayer.enableAutoplay()
 

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Qia.KeyboardShortcutHelper: Use Case 02: I want to use the same shortcuts in different areas in my SPA for different actions.</title>
-	<script src="../../../qia-keyboard-shortcut.js"></script>
+	<script src="../../../qia-keyboard-shortcut-helper.js"></script>
 </head>
 
 <body>
@@ -33,13 +33,12 @@
 	<h2>JavaScript Code of Usage Examples</h2>
 	<div class="code-container" style="overflow: auto;">
 		<code>
-				<pre>
-
-				</pre>
+				<pre></pre>
 			</code>
 	</div>
 	<script class="demo-code">
-		const QiaKeyboardShortcutHelper = window.qia.KeyboardShortcut.KeyboardShortcutHelper
+		const QiaKeyboardShortcutHelper = window.qia.KeyboardShortcutHelper
+
 		const qiaKeyboardShortcutReactionResultElement = document.querySelector('.qia-keyboard-shortcut-reaction-result')
 		const myShortcutCallback = (event) => {
 			qiaKeyboardShortcutReactionResultElement.innerHTML = `The shortcut ${event.detail.shortcut} under namespace <b>!!!${event.detail.config?.namespace || 'GLOBAL'}!!!</b> is handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`
