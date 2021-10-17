@@ -3,9 +3,11 @@
 	"version": "0.0.0",
 	"description": "Web browser libraries shared to help to alleviate the difficulty of web browser application development",
 	"keywords": [
-		"TypeScript",
-		"Browser",
-		"Web"
+		"audio-player",
+		"keyboard-shortcut",
+		"layout",
+		"browser-libraries",
+		"typescript"
 	],
 	"main": "main.js",
 	"types": "types/index.d.ts",
