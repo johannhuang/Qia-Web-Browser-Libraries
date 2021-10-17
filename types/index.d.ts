@@ -1,8 +1,8 @@
-import QiaCalculator from './qia-calculator';
+import QiaCalculation from './qia-calculation/index';
 import QiaLayout from './qia-layout/index';
 import QiaKeyboardShortcut from './qia-keyboard-shortcut/index';
 import QiaAudio from './qia-audio/index';
-export { QiaAudio as Audio, QiaKeyboardShortcut as KeyboardShortcut, QiaLayout as Layout, QiaCalculator as Calculator };
+export { QiaAudio as Audio, QiaKeyboardShortcut as KeyboardShortcut, QiaLayout as Layout, QiaCalculation as Calculation };
 declare const _default: {
     Audio: {
         AudioPlayer: typeof import("./qia-audio/qia-audio-player").default;
@@ -13,6 +13,8 @@ declare const _default: {
     Layout: {
         LayoutHelper: typeof import("./qia-layout/qia-layout-helper").default;
     };
-    Calculator: typeof QiaCalculator;
+    Calculation: {
+        Calculator: typeof import("./qia-calculation/qia-calculator").default;
+    };
 };
 export default _default;
