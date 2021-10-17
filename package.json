@@ -7,7 +7,7 @@
 		"Browser",
 		"Web"
 	],
-	"main": "index.js",
+	"main": "main.js",
 	"types": "types/index.d.ts",
 	"license": "UNLICENSED",
 	"author": "Johann Huang <johann.huang.de@gmail.com> (https://johannhuang.com/)",

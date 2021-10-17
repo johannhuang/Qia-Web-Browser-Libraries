@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IQiaKeyboardShortcutInputElement | qia-browser-libraries</title>
+	<title>IQiaAudioClip | qia-browser-libraries</title>
 	<meta name="description" content="Documentation for qia-browser-libraries">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,13 +55,13 @@
 					<a href="../modules.html">qia-browser-libraries</a>
 				</li>
 				<li>
-					<a href="../modules/Qia_KeyboardShortcutHelper.html">Qia.KeyboardShortcutHelper</a>
+					<a href="../modules/Qia_AudioPlayer.html">Qia.AudioPlayer</a>
 				</li>
 				<li>
-					<a href="Qia_KeyboardShortcutHelper.IQiaKeyboardShortcutInputElement.html">IQiaKeyboardShortcutInputElement</a>
+					<a href="Qia_AudioPlayer.IQiaAudioClip.html">IQiaAudioClip</a>
 				</li>
 			</ul>
-			<h1>Interface IQiaKeyboardShortcutInputElement</h1>
+			<h1>Interface IQiaAudioClip</h1>
 		</div>
 	</div>
 </header>
@@ -72,13 +72,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">HTMLElement</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">IQiaKeyboardShortcutInputElement</span>
-							</li>
-						</ul>
+						<span class="target">IQiaAudioClip</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/Qia_AudioPlayer.QiaAudioClip.html" class="tsd-signature-type" data-tsd-kind="Class">QiaAudioClip</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -88,7 +89,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="Qia_KeyboardShortcutHelper.IQiaKeyboardShortcutInputElement.html#value" class="tsd-kind-icon">value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="Qia_AudioPlayer.IQiaAudioClip.html#buffer" class="tsd-kind-icon">buffer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="Qia_AudioPlayer.IQiaAudioClip.html#bufferSourceNode" class="tsd-kind-icon">buffer<wbr>Source<wbr>Node</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="Qia_AudioPlayer.IQiaAudioClip.html#duration" class="tsd-kind-icon">duration</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="Qia_AudioPlayer.IQiaAudioClip.html#offset" class="tsd-kind-icon">offset</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="Qia_AudioPlayer.IQiaAudioClip.html#startTime" class="tsd-kind-icon">start<wbr>Time</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,9 +102,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="value" class="tsd-anchor"></a>
-					<h3>value</h3>
-					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="buffer" class="tsd-anchor"></a>
+					<h3>buffer</h3>
+					<div class="tsd-signature tsd-kind-icon">buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AudioBuffer</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="bufferSourceNode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> buffer<wbr>Source<wbr>Node</h3>
+					<div class="tsd-signature tsd-kind-icon">buffer<wbr>Source<wbr>Node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AudioBufferSourceNode</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="duration" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> duration</h3>
+					<div class="tsd-signature tsd-kind-icon">duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="offset" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> offset</h3>
+					<div class="tsd-signature tsd-kind-icon">offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="startTime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> start<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">start<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 					</aside>
 				</section>
@@ -111,17 +144,14 @@
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/Qia_AudioPlayer.html">Qia.<wbr>Audio<wbr>Player</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/Qia_KeyboardShortcutHelper.html">Qia.<wbr>Keyboard<wbr>Shortcut<wbr>Helper</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/Qia_LayoutHelper.html">Qia.<wbr>Layout<wbr>Helper</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/Qia_MarkDownText.html">Qia.<wbr>Mark<wbr>Down<wbr>Text</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/qia_calculator.html">qia-<wbr>calculator</a>
@@ -131,26 +161,35 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/Qia_KeyboardShortcutHelper.default.html" class="tsd-kind-icon">default</a>
+						<a href="../classes/Qia_AudioPlayer.QiaAudioClip.html" class="tsd-kind-icon">Qia<wbr>Audio<wbr>Clip</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/Qia_AudioPlayer.default.html" class="tsd-kind-icon">default</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="Qia_KeyboardShortcutHelper.IQiaKeyboardShortcutInputElement.html" class="tsd-kind-icon">IQia<wbr>Keyboard<wbr>Shortcut<wbr>Input<wbr>Element</a>
+						<a href="Qia_AudioPlayer.IQiaAudioClip.html" class="tsd-kind-icon">IQia<wbr>Audio<wbr>Clip</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="Qia_KeyboardShortcutHelper.IQiaKeyboardShortcutInputElement.html#value" class="tsd-kind-icon">value</a>
+								<a href="Qia_AudioPlayer.IQiaAudioClip.html#buffer" class="tsd-kind-icon">buffer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="Qia_AudioPlayer.IQiaAudioClip.html#bufferSourceNode" class="tsd-kind-icon">buffer<wbr>Source<wbr>Node</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="Qia_AudioPlayer.IQiaAudioClip.html#duration" class="tsd-kind-icon">duration</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="Qia_AudioPlayer.IQiaAudioClip.html#offset" class="tsd-kind-icon">offset</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="Qia_AudioPlayer.IQiaAudioClip.html#startTime" class="tsd-kind-icon">start<wbr>Time</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="Qia_KeyboardShortcutHelper.IQiaKeyboardShortcutListenerConfig.html" class="tsd-kind-icon">IQia<wbr>Keyboard<wbr>Shortcut<wbr>Listener<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="Qia_KeyboardShortcutHelper.IQiaKeyboardShortcutReactionAreaElement.html" class="tsd-kind-icon">IQia<wbr>Keyboard<wbr>Shortcut<wbr>Reaction<wbr>Area<wbr>Element</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
