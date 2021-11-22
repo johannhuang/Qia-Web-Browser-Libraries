@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Qia.KeyboardShortcutHelper: Use Case 03: I want to let my users to define
+		their own keyboard shortcuts without knowing pre-defined string representations of
+		keyboard shortcuts.</title>
+	<script src="qia-keyboard-shortcut-helper.js"></script>
+</head>
+
+<body>
+	<h1>Qia.KeyboardShortcutHelper: Use Case 03: I want to let my users to define
+		their own keyboard shortcuts without knowing pre-defined string representations of
+		keyboard shortcuts.</h1>
+	<h2>Hints</h2>
+	<p>Define shortcut by press keyboard keys in the input box and check the effects by press the same keyboard keys
+		outside the input box.</p>
+	<h2>Shortcut Definition and Test Result</h2>
+	<div class="qia-keyboard-shortcut-definition">
+		<p>Click into the input box to focus the input box and then press keyboard keys to define a shortcut (OS and browser
+			occupied shortcut may not work)</p>
+		<input type="text" class="qia-keyboard-shortcut" placeholder="Press keyboard keys here to define the shortcut">
+	</div>
+	<p>Click outside the input box to focus anything else and then press the shortcut as defined in the input box to see
+		the result</p>
+	<div class="qia-keyboard-shortcut-reaction-result"
+		style="box-sizing: content-box; height: 1em; padding: .3em; background-color: #505050; color: white;"></div>
+	<h2>JavaScript Code of Usage Examples</h2>
+	<div class="code-container" style="overflow: auto;">
+		<code>
+				<pre></pre>
+			</code>
+	</div>
+	<script class="demo-code">
+		const QiaKeyboardShortcutHelper = window.qia.KeyboardShortcutHelper
+		QiaKeyboardShortcutHelper.addShortcutReactionAreaElement(document.body)
+
+		const qiaKeyboardShortcutReactionResultElement = document.querySelector('.qia-keyboard-shortcut-reaction-result')
+		const handleShortcut = (event) => {
+			qiaKeyboardShortcutReactionResultElement.textContent = `The shortcut ${event.detail.shortcut} under namespace ${event.detail.config?.namespace || 'GLOBAL'} is handled by ${event.detail.reactionAreaElement.tagName}.${event.detail.reactionAreaElement.className}`
+			console.debug(event)
+		}
+
+		const qiaKeyboardShortcutInputElement = document.querySelector('input.qia-keyboard-shortcut')
+
+		QiaKeyboardShortcutHelper.manageInputElement(qiaKeyboardShortcutInputElement)
+		qiaKeyboardShortcutInputElement.addEventListener('change', (event) => {
+			console.debug('qiaKeyboardShortcutInputElement change event:', event)
+
+			QiaKeyboardShortcutHelper.removeAllShortcutListeners()
+			QiaKeyboardShortcutHelper.addShortcutListener(qiaKeyboardShortcutInputElement.value, handleShortcut)
+		})
+	</script>
+	<script>
+		const codePreElement = document.querySelector('code pre')
+		const demoCodeElement = document.querySelector('script.demo-code')
+		if (codePreElement && demoCodeElement) {
+			codePreElement.innerHTML = demoCodeElement.innerHTML
+		}
+	</script>
+</body>
+
+</html>
